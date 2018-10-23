@@ -1,9 +1,5 @@
-package com.hongJC;
+package hongjiancheng.tojava;
 
-import hongjiancheng.tojava.Deadline;
-import hongjiancheng.tojava.Parser;
-import hongjiancheng.tojava.TaskManagerException;
-import hongjiancheng.tojava.ToDo;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
