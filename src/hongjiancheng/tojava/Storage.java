@@ -29,9 +29,9 @@ public class Storage {
         if(type.contains("D")){
             String due=line.split("\\|")[3];
             if(isDone.contains("0")){
-                return new Deadline(detail.substring(1),false,due.substring(1));
+                return new Deadline(detail.substring(1),false,Parser.convertDeadline(due.substring(1)));
             }else if(isDone.contains("1")){
-                return new Deadline(detail.substring(1),true,due.substring(1));
+                return new Deadline(detail.substring(1),true,Parser.convertDeadline(due.substring(1)));
             }else{
                 throw new TaskManagerException("Missing isDone element for CREATE TASK");
             }
@@ -44,7 +44,7 @@ public class Storage {
         }else{
             throw new TaskManagerException("Missing type element for CREATE TASK");
         }
-        return new Task();
+        return new ToDo();
     }
     private static String outputTask(Task out){
         if(!out.print().contains("do by")){

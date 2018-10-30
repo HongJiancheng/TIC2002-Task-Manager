@@ -24,7 +24,7 @@ public class ParserTest {
     @Test
     public void createDeadline() throws TaskManagerException {
         Deadline actual = Parser.createDeadline("deadline read book /by now");
-        Deadline expected = new Deadline("read book", "now");
+        Deadline expected = new Deadline("read book", Parser.convertDeadline("2018-10-31"));
         assertEquals(expected.print(), actual.print());
     }
 }

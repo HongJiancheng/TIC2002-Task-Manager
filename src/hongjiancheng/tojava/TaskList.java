@@ -18,7 +18,11 @@ public class TaskList {
         tasks.add(t);
         System.out.println("Tasks in the list: "+tasks.size());
     }
-    public static String getDiscription(){
+    public static void removeTask(int i){
+        tasks.remove(i-1);
+        System.out.println("Tasks in the list: " + tasks.size());
+    }
+    public static String getDescription(){
         List<String> out = new ArrayList<>();
         for(int i=0;i<tasks.size();i++) {
             if(i==0) {
@@ -29,8 +33,7 @@ public class TaskList {
         }
         return out.get(out.size()-1);
     }
-    public static void markAsDone(String s) {
-        int index = Integer.parseInt(s.substring(5));
+    public static void markAsDone(int index) {
         tasks.get(index - 1).setDone(true);
         System.out.println("Tasks in the list: " + tasks.size());
     }

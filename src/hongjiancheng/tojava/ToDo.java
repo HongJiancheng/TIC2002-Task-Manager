@@ -1,6 +1,7 @@
 package hongjiancheng.tojava;
 
 public class ToDo extends Task {
+    protected boolean isDone;
     public ToDo(){
         super();
     }
@@ -8,7 +9,8 @@ public class ToDo extends Task {
         super(s);
     }
     public ToDo(String s, boolean isDone){
-        super(s,isDone);
+        super(s);
+        this.isDone=isDone;
     }
     public String print(){
         if(isDone) {
@@ -18,10 +20,10 @@ public class ToDo extends Task {
         }
     }
     public void setDone(boolean isDone){
-        super.setDone(isDone);
+        this.isDone=isDone;
     }
     public boolean getDone(){
-        return super.getDone();
+        return this.isDone;
     }
     public String getText(){
         return super.getText();

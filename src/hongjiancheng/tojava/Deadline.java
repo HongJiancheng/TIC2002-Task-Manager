@@ -1,7 +1,10 @@
 package hongjiancheng.tojava;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Deadline extends ToDo{
-    private String deadline;
+    private Date deadline;
     public Deadline(){
         super();
     }
@@ -11,16 +14,16 @@ public class Deadline extends ToDo{
     public Deadline(String s, boolean isDone){
         super(s,isDone);
     }
-    public Deadline(String s, String deadline){
+    public Deadline(String s, Date deadline){
         super(s);
         this.deadline=deadline;
     }
-    public Deadline(String s, boolean isDone, String deadline){
+    public Deadline(String s, boolean isDone, Date deadline){
         super(s,isDone);
         this.deadline=deadline;
     }
     public String print(){
-        return super.print()+System.lineSeparator()+"     do by: "+deadline;
+        return super.print()+System.lineSeparator()+"     do by: "+getDue();
     }
     public void setDone(boolean isDone){
         super.setDone(isDone);
@@ -32,6 +35,7 @@ public class Deadline extends ToDo{
         return super.getText();
     }
     public String getDue(){
-        return deadline;
+        SimpleDateFormat time_formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        return time_formatter.format(deadline.getTime());
     }
 }

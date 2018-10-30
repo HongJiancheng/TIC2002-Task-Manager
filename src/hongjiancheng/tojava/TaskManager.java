@@ -24,6 +24,7 @@ public class TaskManager {
         boolean isExit = false;
         while (!isExit) {
             try {
+                ui.currentTime();
                 String fullCommand = ui.readUserCommand();
                 String commandWord = Parser.getCommandWord(fullCommand);
                 switch (commandWord) {
@@ -39,11 +40,14 @@ public class TaskManager {
                         tasks.addTask(Parser.createDeadline(fullCommand));
                         ui.changed();
                         break;
+                    case "remove":
+                        tasks.removeTask(Parser.getIndex(fullCommand));
+                        break;
                     case "print":
-                        ui.showToUser(tasks.getDiscription());
+                        ui.showToUser(tasks.getDescription());
                         break;
                     case "done":
-                        tasks.markAsDone(fullCommand);
+                        tasks.markAsDone(Parser.getIndex(fullCommand));
                         ui.changed();
                         break;
                     default:
@@ -68,6 +72,7 @@ public class TaskManager {
     }
 
     public static void main(String[] args) {
+//        assert args.length > 0 :"No arguments";
         new TaskManager("data/tasks.txt").run();
     }
 }

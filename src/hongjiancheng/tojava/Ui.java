@@ -1,8 +1,11 @@
 package hongjiancheng.tojava;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Ui {
+    private Date now;
     private boolean isChanged=false;
     public Ui(){}
     public void printWelcome(){
@@ -24,5 +27,10 @@ public class Ui {
     }
     public boolean status(){
         return isChanged;
+    }
+    public void currentTime(){
+        now=new Date();
+        SimpleDateFormat time_formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        System.out.println("Current Time: "+ time_formatter.format(now.getTime()));
     }
 }
