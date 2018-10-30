@@ -25,6 +25,11 @@ public class TaskManager {
         while (!isExit) {
             try {
                 ui.currentTime();
+                for(int i=0;i<tasks.getTaskList().size();i++){
+                    if(tasks.getTaskList().get(i).getClass()==(new Deadline()).getClass()){
+                        ui.reminder((Deadline)tasks.getTaskList().get(i));
+                    }
+                }
                 String fullCommand = ui.readUserCommand();
                 String commandWord = Parser.getCommandWord(fullCommand);
                 switch (commandWord) {

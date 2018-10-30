@@ -31,6 +31,9 @@ public class Deadline extends ToDo{
     public boolean getDone(){
         return super.getDone();
     }
+    public Date getDeadline(){
+        return this.deadline;
+    }
     public String getText(){
         return super.getText();
     }
