@@ -1,5 +1,7 @@
 package hongjiancheng.tojava;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -62,7 +64,7 @@ public class Storage {
         }
         return System.lineSeparator();
     }
-    private List<Task> getTasksFromFile(){
+    private List<Task> getTasksFromFile() throws FileNotFoundException{
         List<Task> loadedTasks = new ArrayList<>();
         Ui a=new Ui();
         try {
@@ -73,27 +75,38 @@ public class Storage {
                 }
                 loadedTasks.add(createTask(line)); //convert the line to a task and add to the list
             }
-        } catch (FileNotFoundException e) {
-            a.printError("problem encountered while loading data: " + e.getMessage());
+            System.out.println("File successfully loaded");
         } catch (TaskManagerException e1) {
             a.printError(("Problem encountered while loading data: " +e1.getMessage()));
         }
-        System.out.println("File successfully loaded");
         return loadedTasks;
     }
     public List<Task> load(){
-        List<Task> tasks = getTasksFromFile();
-        return tasks;
+        try {
+            List<Task> tasks = getTasksFromFile();
+            return tasks;
+        }catch (FileNotFoundException e) {
+            System.out.println("There is no file in the path: "+e.getMessage());
+            List<Task> tasks = new ArrayList();
+            return tasks;
+        }
     }
-    public void save(List<Task> changed) throws IOException {
+    public void save(List<Task> changed){
         List<String> toAdd=new ArrayList<>();
         for(int i=0;i<changed.size();i++){
             toAdd.add(outputTask(changed.get(i)));
         }
-        FileWriter fw = new FileWriter(path);
-        for(int i=0;i<toAdd.size();i++){
-            fw.write(toAdd.get(i));
+        try {
+            FileWriter fw = new FileWriter(path);
+            for (int i = 0; i < toAdd.size(); i++) {
+                fw.write(toAdd.get(i));
+            }
+            fw.close();
+        }catch(IOException e){
+            e.printStackTrace();
         }
-        fw.close();
+    }
+    public void changePath(String newPath){
+        this.path=newPath;
     }
 }

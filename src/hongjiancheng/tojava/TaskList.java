@@ -5,11 +5,10 @@ import java.util.List;
 
 public class TaskList {
     private static List<Task> tasks;
-    public TaskList(){
-
-    }
+    public TaskList(){}
     public TaskList(List<Task> input) throws TaskManagerException{
         if(input.isEmpty()){
+            tasks=new ArrayList();
             throw new TaskManagerException("Empty String");
         }
         tasks=input;
@@ -24,6 +23,7 @@ public class TaskList {
     }
     public static String getDescription(){
         List<String> out = new ArrayList<>();
+        assert (tasks!=null) && (tasks.size()>0): "No Tasks!";
         for(int i=0;i<tasks.size();i++) {
             if(i==0) {
                 out.add("[" + (i + 1) + "] " + tasks.get(i).print());

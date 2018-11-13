@@ -43,4 +43,8 @@ public class Parser {
         }
         return new Deadline(text, convertDeadline(due));
     }
+    public static String getPath(String fullCommand) throws TaskManagerException {
+        System.out.println("New file path has been set into: "+fullCommand.split("\"")[1]);
+        return fullCommand.split("\"")[1];
+    }
 }

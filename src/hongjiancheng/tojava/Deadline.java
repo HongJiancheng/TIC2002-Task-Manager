@@ -16,6 +16,8 @@ public class Deadline extends ToDo{
     }
     public Deadline(String s, Date deadline){
         super(s);
+        Date now=new Date();
+        assert deadline.after(now):"Deadline cannot be earlier than now!";
         this.deadline=deadline;
     }
     public Deadline(String s, boolean isDone, Date deadline){

@@ -1,4 +1,5 @@
 package hongjiancheng.tojava;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class TaskManager {
@@ -14,7 +15,6 @@ public class TaskManager {
             tasks = new TaskList(storage.load());
         } catch (TaskManagerException e) {
             ui.showToUser("Problem reading file. Starting with an empty task list");
-            tasks = new TaskList();
         }
     }
 
@@ -25,9 +25,13 @@ public class TaskManager {
         while (!isExit) {
             try {
                 ui.currentTime();
-                for(int i=0;i<tasks.getTaskList().size();i++){
-                    if(tasks.getTaskList().get(i).getClass()==(new Deadline()).getClass()){
-                        ui.reminder((Deadline)tasks.getTaskList().get(i));
+                if(tasks.getTaskList().isEmpty()){
+                    ui.showToUser("There is no record, please add your tasks!"+System.lineSeparator());
+                } else {
+                    for (int i = 0; i < tasks.getTaskList().size(); i++) {
+                        if (tasks.getTaskList().get(i).getClass() == (new Deadline()).getClass()) {
+                            ui.reminder((Deadline) tasks.getTaskList().get(i));
+                        }
                     }
                 }
                 String fullCommand = ui.readUserCommand();
@@ -47,6 +51,7 @@ public class TaskManager {
                         break;
                     case "remove":
                         tasks.removeTask(Parser.getIndex(fullCommand));
+                        ui.changed();
                         break;
                     case "print":
                         ui.showToUser(tasks.getDescription());
@@ -54,6 +59,21 @@ public class TaskManager {
                     case "done":
                         tasks.markAsDone(Parser.getIndex(fullCommand));
                         ui.changed();
+                        break;
+                    case "save":
+                        ui.saveNow(storage,tasks.getTaskList());
+                        break;
+                    case "saveTo":
+                        ui.setPath(storage,Parser.getPath(fullCommand));
+                        ui.saveCopy(storage,tasks.getTaskList());
+                        break;
+                    case "loadFrom":
+                        ui.setPath(storage,Parser.getPath(fullCommand));
+                        try {
+                            tasks = new TaskList(storage.load());
+                        } catch (TaskManagerException e) {
+                            ui.showToUser("Problem reading file. Starting with an empty task list");
+                        }
                         break;
                     default:
                         ui.showToUser("Unknown command! please try again"+System.lineSeparator());
@@ -63,21 +83,11 @@ public class TaskManager {
                 ui.printError(e.getMessage());
             }
         }
-        if(ui.status()){
-            try{
-                storage.save(tasks.getTaskList());
-            } catch (IOException e) {
-                ui.showToUser("File not found"+System.lineSeparator());
-            }
-            ui.showToUser("Changes are saved."+System.lineSeparator());
-        }else{
-            ui.showToUser("No change made."+System.lineSeparator());
-        }
+        ui.saveNow(storage,tasks.getTaskList());
 	    ui.printBye();
     }
 
     public static void main(String[] args) {
-//        assert args.length > 0 :"No arguments";
-        new TaskManager("data/tasks.txt").run();
+        new TaskManager("/data/tasks.txt").run();
     }
 }
